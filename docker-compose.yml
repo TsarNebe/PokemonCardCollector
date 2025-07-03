@@ -1,0 +1,39 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:14-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=pokemon
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+  backend:
+    build: ./backend
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=pokemon
+      - DB_USER=postgres
+      - DB_PASS=postgres
+      - JWT_SECRET=your_jwt_secret_here
+      # Optionally POKETCG_API_KEY if available
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+  frontend:
+    build: ./frontend
+    environment:
+      - PORT=3000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    # For development, mount source for hot reload (optional)
+    volumes:
+      - ./frontend/src:/app/src
+volumes:
+  pgdata:
