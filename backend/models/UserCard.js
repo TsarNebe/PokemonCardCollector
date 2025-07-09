@@ -1,5 +1,7 @@
 const sequelize = require('../config/db');
 const { DataTypes } = require('sequelize');
+const User = require('./User');
+const Card = require('./Card');
 
 // Define UserCard model (join table between User and Card)
 const UserCard = sequelize.define('UserCard', {
@@ -14,5 +16,7 @@ const UserCard = sequelize.define('UserCard', {
 }, {
   timestamps: false
 });
-
+// Associations
+User.belongsToMany(Card, { through: UserCard });
+Card.belongsToMany(User, { through: UserCard });
 module.exports = UserCard;
