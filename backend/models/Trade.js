@@ -27,4 +27,11 @@ const Trade = sequelize.define('Trade', {
   timestamps: true
 });
 
+const User = require('./User');
+const Card = require('./Card');
+Trade.belongsTo(User, { as: 'sender', foreignKey: 'offeredBy' });
+Trade.belongsTo(User, { as: 'receiver', foreignKey: 'targetUserId' });
+Trade.belongsTo(Card, { as: 'offeredCard', foreignKey: 'offeredCardId' });
+Trade.belongsTo(Card, { as: 'requestedCard', foreignKey: 'requestedCardId' });
+
 module.exports = Trade;

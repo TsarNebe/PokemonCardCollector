@@ -6,6 +6,17 @@ function CardSearchPage() {
   const [typeFilter, setTypeFilter] = useState('');
   const [generationFilter, setGenerationFilter] = useState('');
   const [results, setResults] = useState([]);
+  const handleAddCard = (card) => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    let guestCards = JSON.parse(localStorage.getItem('guestCollection') || '[]');
+    guestCards.push(card);
+    localStorage.setItem('guestCollection', JSON.stringify(guestCards));
+    alert('Карта сохранена локально');
+  } else {
+    // Вызов backendApi.addCardToCollection(card, token);
+  }
+};
 
   useEffect(() => {
     const searchCards = async () => {

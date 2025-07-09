@@ -14,8 +14,9 @@ exports.getAllTrades = async (req, res) => {
 // Создать трейд
 exports.createTrade = async (req, res) => {
   try {
-    const { senderId, receiverId, offeredCardId, requestedCardId } = req.body;
-    const trade = await Trade.create({ senderId, receiverId, offeredCardId, requestedCardId });
+    const { offeredCardId, requestedCardId, targetUserId } = req.body;
+    const offeredBy = req.user.userId;  // assuming auth middleware sets req.user.userId
+    const trade = await Trade.create({ offeredCardId, requestedCardId, offeredBy, targetUserId });
     res.status(201).json(trade);
   } catch (error) {
     res.status(400).json({ error: 'Ошибка создания трейда' });

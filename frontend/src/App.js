@@ -19,6 +19,7 @@ function App() {
       <NavBar />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/collection" element={token ? <CollectionPage /> : <Navigate to="/login" />} />
         <Route path="/login" element={isLoggedIn ? <Navigate to="/collection" /> : <LoginPage />} />
         <Route path="/register" element={isLoggedIn ? <Navigate to="/collection" /> : <RegisterPage />} />
         <Route path="/collection" element={isLoggedIn ? <CollectionPage /> : <Navigate to="/login" />} />

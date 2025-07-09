@@ -6,6 +6,15 @@ function CollectionPage() {
   const [wantList, setWantList] = useState([]);
   const [filterText, setFilterText] = useState('');
   const [filterType, setFilterType] = useState('');
+  useEffect(() => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    const guestCollection = JSON.parse(localStorage.getItem('guestCollection') || '[]');
+    setCollection(guestCollection);
+  } else {
+    // Вызов API для получения коллекции
+  }
+}, []);
 
   useEffect(() => {
     const fetchCollection = async () => {

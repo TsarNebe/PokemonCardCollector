@@ -1,5 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const { getAllTrades, createTrade } = require('../controllers/tradeController');
+const { verifyToken } = require('../middleware/auth');
+router.get('/', verifyToken, getAllTrades);
+router.post('/', verifyToken, createTrade);
+module.exports = router;
 const auth = require('../middleware/auth');
 const { User, UserCard, Trade } = require('../models');
 const { Op } = require('sequelize');

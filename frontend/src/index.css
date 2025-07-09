@@ -5,4 +5,6 @@
 /* Custom styles if any can go here */
 body {
   @apply bg-gray-100 text-gray-900;
+  background: url('/assets/pokedex-bg.png') no-repeat center center fixed;
+  background-size: cover;
 }

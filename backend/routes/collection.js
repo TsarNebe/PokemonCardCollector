@@ -7,6 +7,12 @@ const { User, Card, UserCard } = require('../models');
 router.use(auth);
 
 // GET /api/collection - Get current user's card collection (have and want lists)
+const userCards = await UserCard.findAll({
+  where: { UserId: req.user.userId },
+  include: [ Card ]
+});
+res.json(userCards);
+
 router.get('/', async (req, res) => {
   try {
     const userId = req.user.id;
@@ -39,6 +45,14 @@ router.get('/', async (req, res) => {
 });
 
 // POST /api/collection - Add a card to user's collection (have or want or both)
+const { name, type, generation, rarity, imageUrl, have, want } = req.body;
+let card = await Card.findOne({ where: { name } });
+if (!card) {
+  card = await Card.create({ name, type, generation, rarity, imageUrl });
+}
+await UserCard.create({ UserId: req.user.userId, CardId: card.id, have: !!have, want: !!want });
+res.status(201).json({ message: 'Card added to collection', card });
+
 router.post('/', async (req, res) => {
   try {
     const userId = req.user.id;
